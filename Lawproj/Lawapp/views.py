@@ -11,7 +11,7 @@ from django.urls import reverse
 
 class SignUp(CreateView):
     form_class = SignUpForm
-    template_name = 'signup.html'
+    template_name = 'pages/signup.html'
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -31,7 +31,7 @@ class SignUp(CreateView):
 
 class LoginView(FormView):
     form_class = UserLoginForm
-    template_name = "login.html"
+    template_name = "pages/login.html"
     def form_valid(self, form):
         response = super().form_valid(form)
         # Get the user's username and password and authenticate
