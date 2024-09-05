@@ -66,12 +66,15 @@ def logout_view(request):
     return redirect("login")
 
 
+# def index(request):
+#     #check if user is authenticated
+#     if request.user.is_authenticated:
+#         if request.method == 'POST':
+#             #get user input from the form
+#             user_input = request.POST.get('userInput')
+#             #clean input from any white spaces
+#             clean_user_input = str(user_input).strip()
+
 def index(request):
-    #check if user is authenticated
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            #get user input from the form
-            user_input = request.POST.get('userInput')
-            #clean input from any white spaces
-            clean_user_input = str(user_input).strip()
+    return render(request,"pages/index.html")
 
