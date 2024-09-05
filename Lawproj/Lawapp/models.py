@@ -7,4 +7,5 @@ class themodel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     comand = models.TextField()
     response = models.TextField()
-    
+    def __str__(self):
+        return self.user.username

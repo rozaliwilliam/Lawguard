@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.urls import reverse
 
 
-# Create your views here.
+
 
 class SignUp(CreateView):
     form_class = SignUpForm
@@ -15,19 +15,28 @@ class SignUp(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
+        
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password1']
 
-        username = form.cleaned_data('username')
-        password = form.cleaned_data('password')
-        user = authenticate(username = username, password= password)
-        login(self.request, user)
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(self.request, user)
+        
+        return response 
+
     def form_invalid(self, form):
+        # Loop through form errors and display them
         for field, errors in form.errors.items():
             for error in errors:
                 messages.warning(self.request, f"{field}: {error}")
-        return redirect(self.request.META['HTTP_REFERER'])
+
+        return self.render_to_response(self.get_context_data(form=form))
+
     def get_success_url(self):
-        return reverse("main")
-    
+        return reverse("login")
+
+
 
 class LoginView(FormView):
     form_class = UserLoginForm
@@ -54,15 +63,15 @@ class LoginView(FormView):
 def logout_view(request):
     logout(request)
     messages.success(request, "Succesfully logged out")
-    return redirect("main")
+    return redirect("login")
 
 
-# def index(request):
-#     #check if user is authenticated
-#     if request.user.is_authenticated:
-#         if request.method == 'POST':
-#             #get user input from the form
-#             user_input = request.POST.get('userInput')
-#             #clean input from any white spaces
-#             clean_user_input = str(user_input).strip()
+def index(request):
+    #check if user is authenticated
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            #get user input from the form
+            user_input = request.POST.get('userInput')
+            #clean input from any white spaces
+            clean_user_input = str(user_input).strip()
 
