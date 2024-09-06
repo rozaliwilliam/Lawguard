@@ -8,5 +8,6 @@ urlpatterns=[
     path("signup/", views.SignUp.as_view(), name='signup'),
     path("index/", views.index, name='main'),
     path("logout/", views.logout_view, name="logout"),
+    path('chat_with_model/', chat_with_model, name='chat_with_model'),
     
 ]
