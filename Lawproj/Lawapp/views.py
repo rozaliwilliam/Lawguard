@@ -75,8 +75,39 @@ def logout_view(request):
     return redirect("login")
 
 
+# def index(request):
+#     #check if user is authenticated
+#     if request.user.is_authenticated:
+#         if request.method == 'POST':
+#             #get user input from the form
+#             user_input = request.POST.get('userInput')
+#             #clean input from any white spaces
+#             clean_user_input = str(user_input).strip()
+
 # Chat page view with authentication required
 @login_required
 def index(request):
     return render(request,"pages/index.html", {'user': request.user})
 
+# Chat with model view
+@csrf_exempt
+def chat_with_model(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            user_message = data.get("message", "")
+
+            # Tokenize the user message
+            inputs = tokenizer.encode(user_message, return_tensors="pt")
+
+            # Generate a response using the model
+            output = model.generate(inputs, max_length=100, num_return_sequences=1)
+
+            # Decode the generated response
+            response = tokenizer.decode(output[0], skip_special_tokens=True)
+
+            return JsonResponse({"response": response})
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=405)
