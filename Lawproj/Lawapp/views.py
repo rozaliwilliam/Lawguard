@@ -11,8 +11,8 @@ import torch
 import json
 
 # Load the saved transformer model and tokenizer
-model_path = "path/to/your/saved/model"  # Replace with the actual path to your saved model
-tokenizer_path = "path/to/your/saved/tokenizer"  # Replace with the actual path to your saved tokenizer
+model_path = "bert-base=uncased"  # Replace with the actual path to your saved model
+tokenizer_path = "bert-base-uncased"  # Replace with the actual path to your saved tokenizer
 
 tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
 model = AutoModelForCausalLM.from_pretrained(model_path)
